@@ -57,4 +57,8 @@ void RustMoosApp_setIterateCallback(RustMoosApp* v, rust_callback callback) {
 void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback) {
     v->setOnStartUpCallback(callback);
 }
+
+bool RustMoosApp_run1(RustMoosApp *v, char* sName, int argc, char *argv[]) {
+    return v->Run(sName, argc, argv);
+}
 }
