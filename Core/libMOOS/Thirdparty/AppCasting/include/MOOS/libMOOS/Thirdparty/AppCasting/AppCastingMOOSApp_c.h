@@ -20,7 +20,7 @@ extern "C" {
 
     void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback);
 
-    bool RustMoosApp_run1(RustMoosApp *v, const char* sName, int argc, char *argv[]);
+    bool RustMoosApp_run1(RustMoosApp *v, const char* sName, const char* missionFile);
 
 #ifdef __cplusplus
 };

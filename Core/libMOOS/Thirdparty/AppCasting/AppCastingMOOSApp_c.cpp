@@ -58,9 +58,10 @@ void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback) {
     v->setOnStartUpCallback(callback);
 }
 
-bool RustMoosApp_run1(RustMoosApp *v, const char* sName, int argc, char *argv[]) {
-    std::string cppString(sName);
+bool RustMoosApp_run1(RustMoosApp *v, const char* sName, const char* missionFile) {
+    std::string cppName(sName);
+    std::string cppMissionFile(missionFile);
 
-    return v->Run(cppString);
+    return v->Run(cppName, cppMissionFile);
 }
 }
