@@ -66,6 +66,7 @@ set(THIRDPARTY_SOURCES
   Thirdparty/AppCasting/AppCastingMOOSApp.cpp
   Thirdparty/AppCasting/AppCastingMOOSInstrument.cpp
   Thirdparty/AppCasting/AppCast.cpp
+  Thirdparty/AppCasting/AppCastingMOOSApp_c.cpp
 )
 
 set(DB_SOURCES
@@ -196,7 +197,7 @@ mark_as_advanced(TIME_WARP_AGGLOMERATION_CONSTANT)
 install(
     DIRECTORY ${INCLUDE_ROOTS}
     DESTINATION .
-    FILES_MATCHING PATTERN "*.h" PATTERN "*.hxx" PATTERN "*.hpp"
+    FILES_MATCHING PATTERN "*.h" PATTERN "*.hxx"
 )
 
 # install libraries
