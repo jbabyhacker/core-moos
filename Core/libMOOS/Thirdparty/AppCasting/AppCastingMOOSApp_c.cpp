@@ -1,13 +1,9 @@
-//
-// Created by jklein on 11/30/19.
-//
-
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp_c.h"
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
 #include <functional>
 
-using IterateCallback = std::function<bool(RustMoosApp*)>;
-using OnStartUpCallback = std::function<bool(RustMoosApp*)>;
+using IterateCallback = std::function<bool(void *)>;
+using OnStartUpCallback = std::function<bool(void *)>;
 
 class RustMoosApp : public AppCastingMOOSApp {
 public:
@@ -19,23 +15,28 @@ public:
         m_onStartUpCallback = callback;
     }
 
-    bool callRegister(const std::string& sVar, const double dfInterval) {
+    bool callRegister(const std::string &sVar, const double dfInterval) {
+        AppCastingMOOSApp::RegisterVariables();
         return Register(sVar, dfInterval);
     }
 
-    RustMoosApp* m_callbackTarget = nullptr;
+    void *m_callbackTarget = nullptr;
 
 protected:
     bool Iterate() override {
-        if(m_iterateCallback) {
-            return m_iterateCallback(m_callbackTarget);
+        if (m_iterateCallback) {
+            AppCastingMOOSApp::Iterate();
+            m_iterateCallback(m_callbackTarget);
+            AppCastingMOOSApp::PostReport();
+            return true;
         } else {
             return false;
         }
     }
 
     bool OnStartUp() override {
-        if(m_onStartUpCallback) {
+        if (m_onStartUpCallback) {
+            AppCastingMOOSApp::OnStartUp();
             return m_onStartUpCallback(m_callbackTarget);
         } else {
             return false;
@@ -44,34 +45,38 @@ protected:
 
 private:
     IterateCallback m_iterateCallback;
-    OnStartUpCallback  m_onStartUpCallback;
+    OnStartUpCallback m_onStartUpCallback;
 
 };
 
 extern "C" {
-RustMoosApp* newRustMoosApp() {
+RustMoosApp *newRustMoosApp() {
     return new RustMoosApp();
 }
 
-void deleteRustMoosApp(RustMoosApp* v) {
+void deleteRustMoosApp(RustMoosApp *v) {
     delete v;
 }
 
-void RustMoosApp_setIterateCallback(RustMoosApp* v, rust_callback callback) {
-    if(!v->m_callbackTarget) {
-        v->m_callbackTarget = v;
-    }
+void setTarget(RustMoosApp *v, void* target) {
+    v->m_callbackTarget = target;
+}
+
+void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_callback callback) {
+//    if (!v->m_callbackTarget) {
+//        v->m_callbackTarget = v;
+//    }
     v->setIterateCallback(callback);
 }
 
 void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback) {
-    if(!v->m_callbackTarget) {
-        v->m_callbackTarget = v;
-    }
+//    if (!v->m_callbackTarget) {
+//        v->m_callbackTarget = v;
+//    }
     v->setOnStartUpCallback(callback);
 }
 
-bool RustMoosApp_run1(RustMoosApp *v, const char* sName, const char* missionFile) {
+bool RustMoosApp_run1(RustMoosApp *v, const char *sName, const char *missionFile) {
     std::string cppName(sName);
     std::string cppMissionFile(missionFile);
 
