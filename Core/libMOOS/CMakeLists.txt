@@ -66,7 +66,7 @@ set(THIRDPARTY_SOURCES
   Thirdparty/AppCasting/AppCastingMOOSApp.cpp
   Thirdparty/AppCasting/AppCastingMOOSInstrument.cpp
   Thirdparty/AppCasting/AppCast.cpp
-#  Thirdparty/AppCasting/AppCastingMOOSApp_c.cpp
+  Thirdparty/AppCasting/AppCastingMOOSApp_c.cpp
 )
 
 set(DB_SOURCES
