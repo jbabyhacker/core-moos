@@ -6,8 +6,8 @@
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
 #include <functional>
 
-using IterateCallback = std::function<bool(void)>;
-using OnStartUpCallback = std::function<bool(void)>;
+using IterateCallback = std::function<bool(void*)>;
+using OnStartUpCallback = std::function<bool(void*)>;
 
 class RustMoosApp : public AppCastingMOOSApp {
 public:
@@ -19,10 +19,12 @@ public:
         m_onStartUpCallback = callback;
     }
 
+    void* m_callbackTarget = nullptr;
+
 protected:
     bool Iterate() override {
         if(m_iterateCallback) {
-            return m_iterateCallback();
+            return m_iterateCallback(m_callbackTarget);
         } else {
             return false;
         }
@@ -30,7 +32,7 @@ protected:
 
     bool OnStartUp() override {
         if(m_onStartUpCallback) {
-            return m_onStartUpCallback();
+            return m_onStartUpCallback(m_callbackTarget);
         } else {
             return false;
         }
@@ -39,6 +41,7 @@ protected:
 private:
     IterateCallback m_iterateCallback;
     OnStartUpCallback  m_onStartUpCallback;
+
 };
 
 extern "C" {
@@ -51,10 +54,16 @@ void deleteRustMoosApp(RustMoosApp* v) {
 }
 
 void RustMoosApp_setIterateCallback(RustMoosApp* v, rust_callback callback) {
+    if(!v->m_callbackTarget) {
+        v->m_callbackTarget = v;
+    }
     v->setIterateCallback(callback);
 }
 
 void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback) {
+    if(!v->m_callbackTarget) {
+        v->m_callbackTarget = v;
+    }
     v->setOnStartUpCallback(callback);
 }
 
