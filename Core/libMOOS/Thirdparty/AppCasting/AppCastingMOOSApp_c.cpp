@@ -71,7 +71,7 @@ void RustMoosApp_onConnectToServer(RustMoosApp *v, rust_bool_void_star_callback 
     v->m_onConnectToServer = callback;
 }
 
-bool RustMoosApp_notifyDouble(RustMoosApp *v, const char *sVar, const double& dfVal) {
+bool RustMoosApp_notifyDouble(RustMoosApp *v, const char *sVar, const double dfVal) {
     return v->Notify(sVar, dfVal);
 }
 
