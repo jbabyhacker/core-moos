@@ -34,6 +34,14 @@ protected:
         }
     }
 
+    bool OnConnectToServer() override {
+        if (m_onConnectToServer) {
+            return m_onConnectToServer(m_callbackTarget);
+        } else {
+            return false;
+        }
+    }
+
 private:
 
 };
