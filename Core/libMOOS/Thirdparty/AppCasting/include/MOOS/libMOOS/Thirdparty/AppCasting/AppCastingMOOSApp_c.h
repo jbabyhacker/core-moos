@@ -10,7 +10,7 @@
 extern "C" {
 #endif
     typedef struct RustMoosApp RustMoosApp;
-    typedef bool (*rust_callback)(void* callback_target);
+    typedef bool (*rust_callback)(RustMoosApp* callback_target);
 
     RustMoosApp* newRustMoosApp();
 
