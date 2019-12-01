@@ -2,25 +2,16 @@
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
 #include <functional>
 
-using IterateCallback = std::function<bool(void *)>;
-using OnStartUpCallback = std::function<bool(void *)>;
-
 class RustMoosApp : public AppCastingMOOSApp {
 public:
-    void setIterateCallback(IterateCallback callback) {
-        m_iterateCallback = callback;
-    }
-
-    void setOnStartUpCallback(OnStartUpCallback callback) {
-        m_onStartUpCallback = callback;
-    }
-
-    bool callRegister(const std::string &sVar, const double dfInterval) {
-        AppCastingMOOSApp::RegisterVariables();
-        return Register(sVar, dfInterval);
-    }
+    using AppCastingMOOSApp::Notify;
+    using AppCastingMOOSApp::RegisterVariables;
+    using AppCastingMOOSApp::Register;
 
     void *m_callbackTarget = nullptr;
+    rust_bool_void_star_callback m_iterateCallback = nullptr;
+    rust_bool_void_star_callback m_onStartUpCallback = nullptr;
+    rust_bool_void_star_callback m_onConnectToServer = nullptr;
 
 protected:
     bool Iterate() override {
@@ -44,8 +35,6 @@ protected:
     }
 
 private:
-    IterateCallback m_iterateCallback;
-    OnStartUpCallback m_onStartUpCallback;
 
 };
 
@@ -62,21 +51,23 @@ void RustMoosApp_setTarget(RustMoosApp *v, void* target) {
     v->m_callbackTarget = target;
 }
 
-void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_callback callback) {
-//    if (!v->m_callbackTarget) {
-//        v->m_callbackTarget = v;
-//    }
-    v->setIterateCallback(callback);
+void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_bool_void_star_callback callback) {
+    v->m_iterateCallback = callback;
 }
 
-void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback) {
-//    if (!v->m_callbackTarget) {
-//        v->m_callbackTarget = v;
-//    }
-    v->setOnStartUpCallback(callback);
+void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_bool_void_star_callback callback) {
+    v->m_onStartUpCallback = callback;
 }
 
-bool RustMoosApp_run1(RustMoosApp *v, const char *sName, const char *missionFile) {
+void RustMoosApp_onConnectToServer(RustMoosApp *v, rust_bool_void_star_callback callback) {
+    v->m_onConnectToServer = callback;
+}
+
+bool RustMoosApp_notifyDouble(RustMoosApp *v, const char *sVar, const double& dfVal) {
+    return v->Notify(sVar, dfVal);
+}
+
+bool RustMoosApp_run(RustMoosApp *v, const char *sName, const char *missionFile) {
     std::string cppName(sName);
     std::string cppMissionFile(missionFile);
 
@@ -86,6 +77,7 @@ bool RustMoosApp_run1(RustMoosApp *v, const char *sName, const char *missionFile
 bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const double dfInterval) {
     std::string cppString(sVar);
 
-    return v->callRegister(cppString, dfInterval);
+    v->RegisterVariables();
+    return v->Register(cppString, dfInterval);
 }
 }

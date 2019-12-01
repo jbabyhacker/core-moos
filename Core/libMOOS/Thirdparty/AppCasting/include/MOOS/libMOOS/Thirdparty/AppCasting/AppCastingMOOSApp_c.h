@@ -6,9 +6,8 @@
 extern "C" {
 #endif
 
-//typedef struct BaseMoosApp BaseMoosApp;
 typedef struct RustMoosApp RustMoosApp;
-typedef bool (*rust_callback)(void *callback_target);
+typedef bool (*rust_bool_void_star_callback)(void *callback_target);
 
 RustMoosApp *newRustMoosApp();
 
@@ -16,11 +15,13 @@ void deleteRustMoosApp(RustMoosApp *v);
 
 void RustMoosApp_setTarget(RustMoosApp *v, void* target);
 
-void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_callback callback);
+void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_bool_void_star_callback callback);
 
-void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback);
+void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_bool_void_star_callback callback);
 
-bool RustMoosApp_run1(RustMoosApp *v, const char *sName, const char *missionFile);
+void RustMoosApp_onConnectToServer(RustMoosApp *v, rust_bool_void_star_callback callback);
+
+bool RustMoosApp_run(RustMoosApp *v, const char *sName, const char *missionFile);
 
 bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const double dfInterval);
 
