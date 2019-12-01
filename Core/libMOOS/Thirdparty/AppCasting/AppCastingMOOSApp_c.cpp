@@ -58,7 +58,7 @@ void deleteRustMoosApp(RustMoosApp *v) {
     delete v;
 }
 
-void setTarget(RustMoosApp *v, void* target) {
+void RustMoosApp_setTarget(RustMoosApp *v, void* target) {
     v->m_callbackTarget = target;
 }
 

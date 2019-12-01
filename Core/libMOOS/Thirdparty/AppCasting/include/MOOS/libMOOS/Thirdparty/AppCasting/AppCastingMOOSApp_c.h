@@ -14,6 +14,8 @@ RustMoosApp *newRustMoosApp();
 
 void deleteRustMoosApp(RustMoosApp *v);
 
+void RustMoosApp_setTarget(RustMoosApp *v, void* target);
+
 void RustMoosApp_setIterateCallback(RustMoosApp *v, rust_callback callback);
 
 void RustMoosApp_setOnStartUpCallback(RustMoosApp *v, rust_callback callback);
