@@ -19,6 +19,10 @@ public:
         m_onStartUpCallback = callback;
     }
 
+    bool callRegister(const std::string& sVar, const double dfInterval) {
+        return Register(sVar, dfInterval);
+    }
+
     void* m_callbackTarget = nullptr;
 
 protected:
@@ -72,5 +76,11 @@ bool RustMoosApp_run1(RustMoosApp *v, const char* sName, const char* missionFile
     std::string cppMissionFile(missionFile);
 
     return v->Run(cppName, cppMissionFile);
+}
+
+bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const double dfInterval) {
+    std::string cppString(sVar);
+
+    return v->callRegister(cppString, dfInterval);
 }
 }

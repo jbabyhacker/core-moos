@@ -22,6 +22,8 @@ extern "C" {
 
     bool RustMoosApp_run1(RustMoosApp *v, const char* sName, const char* missionFile);
 
+    bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const double dfInterval);
+
 #ifdef __cplusplus
 };
 #endif
