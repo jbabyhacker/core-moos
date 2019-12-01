@@ -6,8 +6,8 @@
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
 #include <functional>
 
-using IterateCallback = std::function<bool(void*)>;
-using OnStartUpCallback = std::function<bool(void*)>;
+using IterateCallback = std::function<bool(RustMoosApp*)>;
+using OnStartUpCallback = std::function<bool(RustMoosApp*)>;
 
 class RustMoosApp : public AppCastingMOOSApp {
 public:
@@ -23,7 +23,7 @@ public:
         return Register(sVar, dfInterval);
     }
 
-    void* m_callbackTarget = nullptr;
+    RustMoosApp* m_callbackTarget = nullptr;
 
 protected:
     bool Iterate() override {
