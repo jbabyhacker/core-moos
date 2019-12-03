@@ -14,7 +14,7 @@ enum DataType {
 
 typedef struct RustMoosApp RustMoosApp;
 typedef bool (*rust_bool_void_star_callback)(void *callback_target);
-typedef void (*on_new_mail_callback)(void *callback_target, const DataType& kind, const double dValue, const char* sValue);
+typedef void (*on_new_mail_callback)(void *callback_target, const char* name, const DataType& kind, const double dValue, const char* sValue);
 
 RustMoosApp *newRustMoosApp();
 

@@ -37,14 +37,14 @@ protected:
             if(m_doubleVarNames.count(msg.GetKey()) > 0) {
                 if(msg.IsDouble()) {
                     if(m_onNewMailCallback) {
-                        m_onNewMailCallback(m_callbackTarget, DOUBLE, msg.GetDouble(), nullptr);
+                        m_onNewMailCallback(m_callbackTarget, msg.GetKey().c_str(), DOUBLE, msg.GetDouble(), nullptr);
                     }
                 }
                 p = NewMail.erase(p);
             } else if (m_stringVarNames.count(msg.GetKey()) > 0) {
                 if(msg.IsString()) {
                     if(m_onNewMailCallback) {
-                        m_onNewMailCallback(m_callbackTarget, STRING, 0, msg.GetString().c_str());
+                        m_onNewMailCallback(m_callbackTarget, msg.GetKey().c_str(), STRING, 0, msg.GetString().c_str());
                     }
                 }
                 p = NewMail.erase(p);
@@ -53,7 +53,7 @@ protected:
             }
         }
 
-        m_onNewMailCallback(m_callbackTarget, DONE, 0, nullptr);
+        m_onNewMailCallback(m_callbackTarget, nullptr, DONE, 0, nullptr);
 
         return true;
     }
