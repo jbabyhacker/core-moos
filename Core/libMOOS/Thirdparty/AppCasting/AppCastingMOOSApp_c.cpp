@@ -121,7 +121,7 @@ bool RustMoosApp_run(RustMoosApp *v, const char *sName, const char *missionFile)
     return v->Run(cppName, cppMissionFile);
 }
 
-bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const DataType& kind, const double dfInterval) {
+bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const DataType kind, const double dfInterval) {
     std::string cppString(sVar);
 
     switch(kind) {
