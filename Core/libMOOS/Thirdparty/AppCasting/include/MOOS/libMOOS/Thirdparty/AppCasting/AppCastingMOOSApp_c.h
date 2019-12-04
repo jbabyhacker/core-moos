@@ -34,6 +34,8 @@ bool RustMoosApp_run(RustMoosApp *v, const char *sName, const char *missionFile)
 
 bool RustMoosApp_notifyDouble(RustMoosApp *v, const char *sVar, const double dfVal);
 
+bool RustMoosApp_notifyString(RustMoosApp *v, const char *sVar, const char *sVal);
+
 bool RustMoosApp_register(RustMoosApp *v, const char *sVar, const DataType kind, const double dfInterval);
 
 #ifdef __cplusplus

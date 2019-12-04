@@ -114,6 +114,10 @@ bool RustMoosApp_notifyDouble(RustMoosApp *v, const char *sVar, const double dfV
     return v->Notify(sVar, dfVal);
 }
 
+bool RustMoosApp_notifyString(RustMoosApp *v, const char *sVar, const char *sVal) {
+    return v->Notify(sVar, sVal);
+}
+
 bool RustMoosApp_run(RustMoosApp *v, const char *sName, const char *missionFile) {
     std::string cppName(sName);
     std::string cppMissionFile(missionFile);
